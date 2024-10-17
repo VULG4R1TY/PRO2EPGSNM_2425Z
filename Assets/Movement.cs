@@ -11,6 +11,8 @@ public class Movement : MonoBehaviour
     public float runSpeed = 2500;
 
     public bool isGrounded = false;
+    bool isLeftShift;
+    float moveHorizontal;
 
     // Start is called before the first frame update
     void Start()
@@ -21,14 +23,8 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            rb.velocity = new Vector3(Input.GetAxis("Horizontal") * runSpeed * Time.deltaTime, rb.velocity.y, 0);
-        }
-        else
-        {
-            rb.velocity = new Vector3(Input.GetAxis("Horizontal") * speed * Time.deltaTime, rb.velocity.y, 0);
-        }
+        isLeftShift = Input.GetKey(KeyCode.LeftShift);
+        moveHorizontal = Input.GetAxis("Horizontal");
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
@@ -36,6 +32,18 @@ public class Movement : MonoBehaviour
             isGrounded = false;
         }
 
+    }
+
+    private void FixedUpdate()
+    {
+        if (isLeftShift)
+        {
+            rb.velocity = new Vector3(moveHorizontal * runSpeed * Time.deltaTime, rb.velocity.y, 0);
+        }
+        else
+        {
+            rb.velocity = new Vector3(moveHorizontal * speed * Time.deltaTime, rb.velocity.y, 0);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)

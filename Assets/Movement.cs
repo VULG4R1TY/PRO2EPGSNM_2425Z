@@ -6,7 +6,8 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     Rigidbody rb;
-    SpriteRenderer sr; 
+    SpriteRenderer sr;
+    Animator anim;
 
     public float upForce = 200;
     public float speed = 200;
@@ -21,6 +22,7 @@ public class Movement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         sr = GetComponentInChildren<SpriteRenderer>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -38,6 +40,14 @@ public class Movement : MonoBehaviour
             sr.flipX = true;
         }
 
+        if (moveHorizontal == 0)
+        {
+            anim.SetBool(name: "IsRunning", false);
+        }
+        else
+        {
+            anim.SetBool(name:"IsRunning", true);
+        }
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {

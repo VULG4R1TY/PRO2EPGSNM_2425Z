@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Movement : MonoBehaviour
 {
-    public Rigidbody rb;
+    Rigidbody rb;
+    SpriteRenderer sr; 
 
-    public float upForce = 100;
-    public float speed = 1500;
-    public float runSpeed = 2500;
+    public float upForce = 200;
+    public float speed = 200;
+    public float runSpeed = 400;
 
     public bool isGrounded = false;
     bool isLeftShift;
@@ -17,7 +19,8 @@ public class Movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        rb = GetComponent<Rigidbody>();
+        sr = GetComponentInChildren<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -25,6 +28,16 @@ public class Movement : MonoBehaviour
     {
         isLeftShift = Input.GetKey(KeyCode.LeftShift);
         moveHorizontal = Input.GetAxis("Horizontal");
+
+        if (moveHorizontal > 0)
+        {
+            sr.flipX = false;
+        }
+        else if (moveHorizontal < 0)
+        {
+            sr.flipX = true;
+        }
+
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {

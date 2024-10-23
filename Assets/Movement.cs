@@ -14,6 +14,7 @@ public class Movement : MonoBehaviour
     public float runSpeed = 10;
 
     public bool isGrounded = false;
+
     bool isLeftShift;
     float moveHorizontal;
     float moveVertical;
@@ -42,19 +43,21 @@ public class Movement : MonoBehaviour
             sr.flipX = true;
         }
 
-        if (moveHorizontal == 0)
+        if (moveHorizontal == 0 && moveVertical == 0)
         {
-            anim.SetBool(name: "IsRunning", false);
+            anim.SetBool("IsRunning", false);
         }
         else
         {
-            anim.SetBool(name:"IsRunning", true);
+            anim.SetBool("IsRunning", true);
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.AddForce(Vector3.up * upForce);
             isGrounded = false;
+            anim.SetBool("isGrounded", false);
+            anim.SetTrigger("Jump");
         }
 
     }
@@ -77,5 +80,6 @@ public class Movement : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         isGrounded = true;
+        anim.SetBool("isGrounded", true);
     }
 }

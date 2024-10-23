@@ -10,9 +10,9 @@ public class Movement : MonoBehaviour
     SpriteRenderer sr;
     Animator anim;
 
-    public float upForce = 100;
+    public float upForce = 200;
     public float speed = 5;
-    public float runSpeed = 2500;
+    public float runSpeed = 10;
 
     public bool isGrounded = false;
 
@@ -29,7 +29,6 @@ public class Movement : MonoBehaviour
     void Update()
     {
         isLeftShift = Input.GetKey(KeyCode.LeftShift);
-        //Input.GetAxis("Vertical");
         moveHorizontal = Input.GetAxis("Horizontal");
         moveVertical = Input.GetAxis("Vertical");
 
@@ -75,7 +74,6 @@ public class Movement : MonoBehaviour
         }
 
     }
-
 
     private void OnCollisionEnter(Collision collision)
     {

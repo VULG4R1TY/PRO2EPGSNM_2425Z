@@ -10,12 +10,13 @@ public class Movement : MonoBehaviour
     Animator anim;
 
     public float upForce = 200;
-    public float speed = 200;
-    public float runSpeed = 400;
+    public float speed = 5;
+    public float runSpeed = 10;
 
     public bool isGrounded = false;
     bool isLeftShift;
     float moveHorizontal;
+    float moveVertical;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +31,7 @@ public class Movement : MonoBehaviour
     {
         isLeftShift = Input.GetKey(KeyCode.LeftShift);
         moveHorizontal = Input.GetAxis("Horizontal");
+        moveVertical = Input.GetAxis("Vertical");
 
         if (moveHorizontal > 0)
         {
@@ -61,12 +63,15 @@ public class Movement : MonoBehaviour
     {
         if (isLeftShift)
         {
-            rb.velocity = new Vector3(moveHorizontal * runSpeed * Time.deltaTime, rb.velocity.y, 0);
+            Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+            transform.position += moveDirection * runSpeed * Time.deltaTime;
         }
         else
         {
-            rb.velocity = new Vector3(moveHorizontal * speed * Time.deltaTime, rb.velocity.y, 0);
+            Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+            transform.position += moveDirection * speed * Time.deltaTime;
         }
+
     }
 
     private void OnCollisionEnter(Collision collision)

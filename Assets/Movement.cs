@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,28 +10,26 @@ public class Movement : MonoBehaviour
     SpriteRenderer sr;
     Animator anim;
 
-    public float upForce = 200;
+    public float upForce = 100;
     public float speed = 5;
-    public float runSpeed = 10;
+    public float runSpeed = 2500;
 
     public bool isGrounded = false;
 
     bool isLeftShift;
     float moveHorizontal;
     float moveVertical;
-
-    // Start is called before the first frame update
+    
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         sr = GetComponentInChildren<SpriteRenderer>();
         anim = GetComponentInChildren<Animator>();
     }
-
-    // Update is called once per frame
     void Update()
     {
         isLeftShift = Input.GetKey(KeyCode.LeftShift);
+        //Input.GetAxis("Vertical");
         moveHorizontal = Input.GetAxis("Horizontal");
         moveVertical = Input.GetAxis("Vertical");
 
@@ -38,18 +37,18 @@ public class Movement : MonoBehaviour
         {
             sr.flipX = false;
         }
-        else if (moveHorizontal < 0)
+        else if(moveHorizontal < 0)
         {
             sr.flipX = true;
         }
 
         if (moveHorizontal == 0 && moveVertical == 0)
         {
-            anim.SetBool("IsRunning", false);
+            anim.SetBool("isRunning", false);
         }
         else
         {
-            anim.SetBool("IsRunning", true);
+            anim.SetBool("isRunning", true);
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
@@ -57,7 +56,7 @@ public class Movement : MonoBehaviour
             rb.AddForce(Vector3.up * upForce);
             isGrounded = false;
             anim.SetBool("isGrounded", false);
-            anim.SetTrigger("Jump");
+            anim.SetBool("Jump", true);
         }
 
     }
@@ -77,9 +76,11 @@ public class Movement : MonoBehaviour
 
     }
 
+
     private void OnCollisionEnter(Collision collision)
     {
         isGrounded = true;
         anim.SetBool("isGrounded", true);
+        anim.SetBool("Jump", false);
     }
 }
